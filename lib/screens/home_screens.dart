@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_delivery_ui/data/data.dart';
 import 'package:flutter_food_delivery_ui/models/restaurant.dart';
+import 'package:flutter_food_delivery_ui/screens/cart_screen.dart';
+import 'package:flutter_food_delivery_ui/screens/restaurent_screen.dart';
 import 'package:flutter_food_delivery_ui/widgets/rating_stars.dart';
 import 'package:flutter_food_delivery_ui/widgets/recent_order.dart';
 
@@ -19,62 +21,75 @@ class _HomeSreenState extends State<HomeSreen> {
     List<Widget> restaurantList =[];
     restaurants.forEach( (Restaurant restaurant){
       restaurantList.add(
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15.0),
-            border: Border.all(
-              width: 1.0,
-              color: Color.fromARGB(255, 235, 235, 235)),
-                 ),
-                 child: Row(
-                  children: <Widget> [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15.0),
-                      child: Image(
-                        height: 150.0,
-                        width: 150.0,
-                        image: AssetImage(restaurant.imageUrl),
-                        fit: BoxFit.cover,),
-                    ),
-                    Container(
-                          margin: EdgeInsets.all(10.0),
-                            child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        GestureDetector(
+          onTap: () => Navigator.push(
+            context, 
+          MaterialPageRoute(
+            builder: (_)=> RestaurantScreen(restaurant: restaurant),
+          ),
+          ),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15.0),
+              border: Border.all(
+                width: 1.0,
+                color: Color.fromARGB(255, 235, 235, 235)),
+                   ),
+                   child: Row(
+                    children: <Widget> [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: Hero(
+                          tag: restaurant.imageUrl, // add animetion
 
-                  children: <Widget> [
-                    Text(
-                      restaurant.name,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
+                          child: Image(
+                            height: 150.0,
+                            width: 150.0,
+                            image: AssetImage(restaurant.imageUrl),
+                            fit: BoxFit.cover,),
+                        ),
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      ),
-                      RatingStars(restaurant.rating),
-                    SizedBox(height: 4.0,),
-                    Text(
-                      restaurant.address,
-                      style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w600,
+                      Container(
+                            margin: EdgeInsets.all(10.0),
+                              child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+        
+                    children: <Widget> [
+                      Text(
+                        restaurant.name,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
                         ),
                         overflow: TextOverflow.ellipsis,
                         ),
-                         SizedBox(height: 4.0,),
-                    Text('0.2 miles away',
-                    style: TextStyle(
-                          fontSize: 15.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        overflow: TextOverflow.ellipsis,),
-                  ],
-                            ),
+                        SizedBox(height: 4.0,),
+                        RatingStars(restaurant.rating),//calling rating start function
+                      SizedBox(height: 4.0,),
+                      Text(
+                        restaurant.address,
+                        style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w600,
                           ),
-                  ],
-                 ),
+                          overflow: TextOverflow.ellipsis,
+                          ),
+                           SizedBox(height: 4.0,),
+                      Text('0.2 miles away',
+                      style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,),
+                    ],
+                              ),
+                            ),
+                    ],
+                   ),
+          ),
         ),
       );
     });
@@ -95,7 +110,12 @@ class _HomeSreenState extends State<HomeSreen> {
         backgroundColor: Colors.deepOrangeAccent,
         actions: <Widget>[
           TextButton(
-            onPressed: () { },
+            onPressed: ()=> Navigator.push(
+            context, 
+          MaterialPageRoute(
+            builder: (_)=> CartScreen(),
+          ),
+          ),
             child: Text(
               'Cart(${currentUser.cart.length})',
                style: TextStyle(color: Colors.white,
